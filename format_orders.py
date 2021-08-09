@@ -71,6 +71,31 @@ def quantity_calculator(symbol, quantity, **kwargs):
 
 	return result
 
+def usdt_quantity_calculator(amount, **kwargs):
+	result = {}
+	total = 0
+	for i in kwargs:
+		if kwargs[i] != "*":
+			qty = amount * (kwargs[i]/100)
+			total = total + kwargs[i]
+			if qty >= 10.5 and total <= 100:
+				result[i] = round(qty, 2)
+			else:
+				result[i] = "None"
+				break
+		else:
+			rest = 100 - total
+			qty = amount * (rest/100)
+			if amount >= 10.5 and total <= 100:
+				result[i] = round(qty, 2)
+			else:
+				result[i] = "None"
+				break
+
+	return result
+
+
+
 #convert the balance to the allowed purchase quantity < for market buy orders >.
 def buy_market_quantity(symbol, usdt_amount):
 	avg_price = client.get_avg_price(symbol = symbol)
